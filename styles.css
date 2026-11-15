@@ -1,0 +1,304 @@
+/* Pinned section above the file explorer's folders */
+.cr-pinned-section {
+	padding-bottom: var(--size-4-1);
+	margin-bottom: var(--size-4-1);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.cr-pinned-header {
+	padding: var(--size-4-1) var(--size-4-2);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	color: var(--text-muted);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+/* Reminder banner at the top of a note */
+.cr-banner {
+	--cr-note-color: var(--interactive-accent);
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	padding: var(--size-4-1) var(--size-4-3);
+	font-size: var(--font-ui-small);
+	background-color: color-mix(in srgb, var(--cr-note-color) 14%, var(--background-primary));
+	border-bottom: 1px solid color-mix(in srgb, var(--cr-note-color) 40%, transparent);
+}
+
+/* On mobile the banner sits inside the note's text, above the title. */
+.is-mobile .cr-banner {
+	margin-bottom: var(--size-4-3);
+	border: 1px solid color-mix(in srgb, var(--cr-note-color) 40%, transparent);
+	border-radius: var(--radius-m);
+}
+
+.cr-banner-icon {
+	display: flex;
+	color: var(--cr-note-color);
+}
+
+.cr-banner-text {
+	flex: 1;
+	min-width: 0;
+}
+
+.cr-banner-subtitle {
+	overflow: hidden;
+	color: var(--text-muted);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.cr-banner.is-missed .cr-banner-text {
+	color: var(--text-error);
+}
+
+.cr-banner.is-ended .cr-banner-text {
+	color: var(--text-muted);
+}
+
+.cr-banner-actions {
+	display: flex;
+	gap: var(--size-4-1);
+}
+
+.cr-banner-actions button {
+	height: auto;
+	padding: 2px 8px;
+	font-size: var(--font-ui-smaller);
+}
+
+/* Color picker */
+.cr-swatches {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+	gap: var(--size-4-2);
+}
+
+.cr-swatch {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	height: auto;
+	padding: 10px 4px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--radius-m);
+	box-shadow: none;
+}
+
+.cr-swatch:hover {
+	background: var(--background-modifier-hover);
+}
+
+.cr-swatch.is-selected {
+	border-color: var(--interactive-accent);
+}
+
+.cr-swatch-dot {
+	width: 32px;
+	height: 32px;
+	background: var(--cr-note-color);
+	border-radius: 50%;
+	/* A ring, so black stays visible in the dark theme and white in the light one. */
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text-normal) 30%, transparent);
+}
+
+.cr-swatch-dot.is-none {
+	background: transparent;
+	border: 2px dashed var(--text-faint);
+	box-shadow: none;
+}
+
+.cr-swatch-label {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+}
+
+/* Reminder dialog */
+.cr-modal-note {
+	margin-top: 0;
+	color: var(--text-muted);
+}
+
+.cr-modal-subtitle {
+	padding: var(--size-4-2) var(--size-4-3);
+	border-left: 3px solid var(--interactive-accent);
+	border-radius: var(--radius-s);
+	background: var(--background-secondary);
+}
+
+.cr-modal-error {
+	color: var(--text-error);
+}
+
+/* Colored notes list */
+.workspace-leaf-content[data-type="vladmas-note-pin-notes"] .view-content {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+}
+
+.cr-notes-controls {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+	padding: var(--size-4-2);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.cr-notes-search {
+	width: 100%;
+}
+
+.cr-notes-selects {
+	display: flex;
+	gap: var(--size-4-2);
+}
+
+.cr-notes-selects select {
+	flex: 1;
+	min-width: 0;
+}
+
+.cr-notes-list {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: var(--size-4-1);
+	padding: var(--size-4-2);
+	overflow-y: auto;
+}
+
+.cr-note-row {
+	display: flex;
+	flex-shrink: 0;
+	overflow: hidden;
+	cursor: pointer;
+	background: var(--background-secondary);
+	border-radius: var(--radius-m);
+}
+
+.cr-note-row.has-color {
+	background: color-mix(in srgb, var(--cr-note-color) 16%, var(--background-primary));
+}
+
+.cr-note-row:hover {
+	box-shadow: inset 0 0 0 999px var(--background-modifier-hover);
+}
+
+.cr-note-row.is-active {
+	outline: 2px solid var(--interactive-accent);
+	outline-offset: -2px;
+}
+
+.cr-note-stripe {
+	flex-shrink: 0;
+	width: 5px;
+	background: var(--cr-note-color, transparent);
+}
+
+.cr-note-body {
+	flex: 1;
+	min-width: 0;
+	padding: var(--size-4-2) var(--size-4-3);
+}
+
+.cr-note-title,
+.cr-note-meta {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.cr-note-title span:last-child,
+.cr-note-meta span:last-child {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.cr-note-title {
+	font-weight: var(--font-medium);
+}
+
+.cr-note-meta {
+	margin-top: 2px;
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+}
+
+.cr-note-meta.is-missed {
+	color: var(--text-error);
+}
+
+.cr-note-meta.is-ended {
+	color: var(--text-faint);
+}
+
+.cr-note-icon {
+	display: inline-flex;
+	flex-shrink: 0;
+}
+
+.cr-note-icon svg {
+	width: 14px;
+	height: 14px;
+}
+
+.cr-notes-empty {
+	padding: var(--size-4-8) var(--size-4-4);
+	color: var(--text-muted);
+	text-align: center;
+}
+
+.cr-notes-more {
+	margin: var(--size-4-2) auto;
+}
+
+/* Where to get the companion app (Google Play · F-Droid · GitHub), under its setting's description */
+.cr-app-links {
+	margin-top: var(--size-4-1);
+}
+
+.cr-app-links a {
+	font-weight: var(--font-semibold);
+	color: var(--text-accent);
+}
+
+.cr-app-links a:hover {
+	color: var(--text-accent-hover);
+}
+
+.cr-app-links-sep {
+	color: var(--text-faint);
+}
+
+/* About */
+.cr-about {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--size-4-3);
+	padding: var(--size-4-2) 0 var(--size-4-6);
+}
+
+.cr-about-credit {
+	margin: 0;
+}
+
+button.cr-kofi {
+	height: auto;
+	padding: 6px 16px;
+	font-weight: var(--font-semibold);
+	color: #ffffff;
+	background-color: #29abe0;
+	border-radius: var(--radius-l);
+}
+
+button.cr-kofi:hover {
+	background-color: #1e95c6;
+}
