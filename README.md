@@ -213,7 +213,7 @@ npm test        # needs Node 22.18 or later
 
 Made by [vladmas](https://vladmas.com). If you like this plugin, you can support me on Ko-fi:
 
-[![Support me on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vladmas)
+<a href="https://ko-fi.com/vladmas"><img src="docs/images/kofi-button.png" alt="Support me on Ko-fi" height="40"></a>
 
 Note Pin is open source, under the [MIT license](LICENSE).
 
