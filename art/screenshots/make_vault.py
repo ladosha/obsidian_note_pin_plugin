@@ -29,7 +29,8 @@ NOTES = {
     "Home/Call the dentist.md": (
         {"color": "red", "reminder": f"{day(1)}T10:00", "reminder-type": "time",
          "notification-subtitle": "Ask about the Thursday slot"},
-        "Ask about the Thursday slot. Bring the insurance card.\n\nDr. Silva, Rua Augusta 12\n"),
+        "Ask about the Thursday slot. Bring the insurance card.\n\n## Questions\n\n- [ ] Is the cleaning covered?\n"
+        "- [ ] When is the next check-up?\n- [x] Find last year's X-rays\n\n## Address\n\nDr. Silva, Rua Augusta 12\n"),
     "Home/Groceries.md": (
         {"color": "green", "reminder": day(0), "reminder-type": "statusbar"},
         "- [ ] Milk\n- [ ] Eggs\n- [ ] Coffee beans\n- [ ] Basil\n- [x] Bread\n"),
@@ -57,7 +58,7 @@ NOTES = {
         "What went well, what didn't, and the three priorities for next week.\n"),
     "Work/Team retro.md": (
         {"color": "blue", "reminder": f"{day(9)}T15:00", "reminder-type": "time",
-         "reminder-repeat": "monthly-last-weekday", "reminder-until": f"{today.year + 1}-06-30"},
+         "reminder-repeat": "monthly-weekday", "reminder-until": f"{today.year + 1}-06-30"},
         "Start, stop, continue.\n"),
     "Work/Project ideas.md": ({"color": "purple", "pinned": True}, "A habit tracker that lives in daily notes.\n"),
     "Work/Meeting notes.md": ({}, "Q4 planning: budget, hiring, roadmap.\n"),
