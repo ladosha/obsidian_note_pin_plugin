@@ -97,7 +97,7 @@ export class DesktopReminders {
 			void this.plugin.openNote(info.file);
 		};
 		const notice = new Notice(body ? `⏰ ${title}\n${body}` : `⏰ ${title}`, 0);
-		notice.noticeEl.addEventListener("click", open);
+		notice.containerEl.addEventListener("click", open);
 		if (typeof Notification === "undefined") return;
 		if (Notification.permission === "default") await Notification.requestPermission();
 		if (Notification.permission !== "granted") return;

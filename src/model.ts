@@ -174,6 +174,6 @@ function readReminder(frontmatter: Record<string, unknown>): Reminder | null {
 }
 
 export function asText(value: unknown): string | null {
-	if (value == null || value === "") return null;
+	if (typeof value !== "string" && typeof value !== "number" && typeof value !== "boolean") return null;
 	return String(value).trim() || null;
 }

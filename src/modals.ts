@@ -205,7 +205,7 @@ export class ReminderModal extends Modal {
 			this.repeat = fallback && options[fallback] ? fallback : this.repeat === "yearly-lunar" ? "yearly" : "monthly";
 		}
 		dropdown.selectEl.empty();
-		dropdown.addOptions(options as Record<string, string>).setValue(this.repeat);
+		dropdown.addOptions(options).setValue(this.repeat);
 	}
 
 	private reminder(): Reminder | null {

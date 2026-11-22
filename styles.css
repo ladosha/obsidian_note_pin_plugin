@@ -1,3 +1,17 @@
+/* Note colors in the file explorer. explorer.ts puts the class and the color variable on each colored row,
+   and the mode class on the explorer. */
+.vmnp-explorer-tint .nav-file-title.vmnp-colored {
+	box-shadow: inset 3px 0 0 var(--vmnp-note-color);
+}
+
+.vmnp-explorer-tint .nav-file-title.vmnp-colored:not(.is-active):not(:hover) {
+	background-color: color-mix(in srgb, var(--vmnp-note-color) 16%, transparent);
+}
+
+.vmnp-explorer-text .nav-file-title.vmnp-colored {
+	color: var(--vmnp-note-color);
+}
+
 /* Pinned section above the file explorer's folders */
 .cr-pinned-section {
 	padding-bottom: var(--size-4-1);
@@ -278,18 +292,6 @@
 }
 
 /* About */
-.cr-about {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: var(--size-4-3);
-	padding: var(--size-4-2) 0 var(--size-4-6);
-}
-
-.cr-about-credit {
-	margin: 0;
-}
-
 button.cr-kofi {
 	height: auto;
 	padding: 6px 16px;

@@ -4,7 +4,9 @@ import { t } from "./i18n";
 import { allNotes, noteInfo, type NoteInfo } from "./model";
 import type NotePinPlugin from "./main";
 
-const STYLE_ID = "vladmas-note-pin-explorer-colors";
+const COLORED_CLASS = "vmnp-colored";
+const MODE_CLASSES = { tint: "vmnp-explorer-tint", text: "vmnp-explorer-text" } as const;
+const ROW_SELECTOR = ".nav-file-title[data-path]";
 const SECTION_CLASS = "cr-pinned-section";
 
 /** The parts of Obsidian's file explorer view used for sorting by color. They aren't public API. */
@@ -15,14 +17,15 @@ interface FileExplorerInternals extends View {
 
 /**
  * Decorates Obsidian's file explorer:
- * - note colors, through a stylesheet keyed on each row's data-path attribute, so rows the explorer draws
- *   later are colored too;
+ * - note colors: a class and a --vmnp-note-color variable on each row, styled in styles.css. A watcher
+ *   colors the rows the explorer draws later, such as when a folder opens;
  * - a Pinned section above the folders, made of rows that look like the explorer's own;
  * - optionally, sorting by color inside each folder, by wrapping the explorer's internal sort function.
  */
 export class ExplorerDecorations {
 	private plugin: NotePinPlugin;
-	private styleEl: HTMLStyleElement | null = null;
+	private colors = new Map<string, string>();
+	private rowObservers = new Map<HTMLElement, MutationObserver>();
 	private observers = new Map<HTMLElement, MutationObserver>();
 	private unpatchSort: (() => void) | null = null;
 	private colorSignature = "";
@@ -40,7 +43,10 @@ export class ExplorerDecorations {
 	}
 
 	unload() {
-		this.styleEl?.remove();
+		this.rowObservers.forEach((observer) => observer.disconnect());
+		this.rowObservers.clear();
+		this.colors.clear();
+		for (const explorerEl of this.explorerEls()) this.paintExplorer(explorerEl);
 		this.observers.forEach((observer) => observer.disconnect());
 		this.observers.clear();
 		document.querySelectorAll(`.${SECTION_CLASS}`).forEach((el) => el.remove());
@@ -53,23 +59,59 @@ export class ExplorerDecorations {
 	/** Returns whether any note's color changed since the last call. */
 	private updateColors(notes: NoteInfo[]): boolean {
 		const mode = this.plugin.settings.explorerColors;
-		const colored = notes.filter((n) => colorHex(n.color)).map((n) => [n.file.path, colorHex(n.color)] as const);
+		const colored = notes.filter((n) => colorHex(n.color)).map((n) => [n.file.path, colorHex(n.color) ?? ""] as const);
 		const signature = mode + JSON.stringify(colored);
-		if (signature === this.colorSignature) return false;
+		const changed = signature !== this.colorSignature;
 		this.colorSignature = signature;
-		if (!this.styleEl) this.styleEl = document.head.createEl("style", { attr: { id: STYLE_ID } });
-		if (mode === "off") {
-			this.styleEl.textContent = "";
-			return true;
+		if (changed) this.colors = new Map(mode === "off" ? [] : colored);
+		for (const explorerEl of this.explorerEls()) {
+			// A new explorer (opened later, or in a new window) gets painted and watched once; the rest on a change.
+			const fresh = this.watchRows(explorerEl);
+			if (changed || fresh) this.paintExplorer(explorerEl);
 		}
-		this.styleEl.textContent = colored
-			.map(([path, hex]) => {
-				const row = `.nav-file-title[data-path="${cssString(path)}"]`;
-				return mode === "tint"
-					? `${row}{box-shadow:inset 3px 0 0 ${hex};}${row}:not(.is-active):not(:hover){background-color:color-mix(in srgb, ${hex} 16%, transparent);}`
-					: `${row}{color:${hex};}`;
-			})
-			.join("\n");
+		return changed;
+	}
+
+	private explorerEls(): HTMLElement[] {
+		return this.plugin.app.workspace.getLeavesOfType("file-explorer").map((leaf) => leaf.view.containerEl);
+	}
+
+	private paintExplorer(explorerEl: HTMLElement) {
+		const mode = this.colors.size > 0 ? this.plugin.settings.explorerColors : "off";
+		explorerEl.toggleClass(MODE_CLASSES.tint, mode === "tint");
+		explorerEl.toggleClass(MODE_CLASSES.text, mode === "text");
+		explorerEl.querySelectorAll<HTMLElement>(ROW_SELECTOR).forEach((row) => this.paintRow(row));
+	}
+
+	private paintRow(row: HTMLElement) {
+		const hex = this.colors.get(row.dataset.path ?? "");
+		if (hex) {
+			row.addClass(COLORED_CLASS);
+			row.setCssProps({ "--vmnp-note-color": hex });
+		} else if (row.hasClass(COLORED_CLASS)) {
+			row.removeClass(COLORED_CLASS);
+			row.setCssProps({ "--vmnp-note-color": "" });
+		}
+	}
+
+	/** Colors rows as the explorer adds or renames them. Returns whether this explorer is new. */
+	private watchRows(explorerEl: HTMLElement): boolean {
+		if (this.rowObservers.has(explorerEl)) return false;
+		const observer = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				if (mutation.type === "attributes") {
+					if (mutation.target.instanceOf(HTMLElement) && mutation.target.matches(ROW_SELECTOR)) this.paintRow(mutation.target);
+					continue;
+				}
+				mutation.addedNodes.forEach((node) => {
+					if (!node.instanceOf(HTMLElement)) return;
+					if (node.matches(ROW_SELECTOR)) this.paintRow(node);
+					node.querySelectorAll<HTMLElement>(ROW_SELECTOR).forEach((row) => this.paintRow(row));
+				});
+			}
+		});
+		observer.observe(explorerEl, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-path"] });
+		this.rowObservers.set(explorerEl, observer);
 		return true;
 	}
 
@@ -166,7 +208,7 @@ export class ExplorerDecorations {
 
 	private explorerView(): FileExplorerInternals | null {
 		const leaf = this.plugin.app.workspace.getLeavesOfType("file-explorer")[0];
-		return (leaf?.view as FileExplorerInternals | undefined) ?? null;
+		return leaf?.view ?? null;
 	}
 }
 
@@ -181,8 +223,4 @@ function sortByColor<T extends { file?: TAbstractFile }>(app: App, items: T[]): 
 		.map((item, index) => ({ item, index, rank: rank(item) }))
 		.sort((a, b) => a.rank - b.rank || a.index - b.index)
 		.map((entry) => entry.item);
-}
-
-function cssString(text: string): string {
-	return text.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
