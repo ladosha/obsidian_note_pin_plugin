@@ -1,7 +1,7 @@
 {
 	"id": "vladmas-note-pin",
 	"name": "Note Pin",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "1.10.0",
 	"description": "Color notes, pin them to the top, and set repeating reminders. On Android, pin notes to the notification bar with an offline companion app.",
 	"author": "vladmas",
