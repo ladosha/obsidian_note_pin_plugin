@@ -11,7 +11,7 @@ export const KOFI_URL = "https://ko-fi.com/vladmas";
 export const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.vladmas.notepinobsidian";
 export const FDROID_URL = "https://f-droid.org/packages/com.vladmas.notepinobsidian/";
 /** TODO: a placeholder until the app's GitHub repository exists. */
-export const GITHUB_RELEASES_URL = "https://github.com/TODO-owner/TODO-app-repo/releases/latest";
+export const GITHUB_RELEASES_URL = "https://github.com/ladosha/obsidian_note_pin_android/releases/latest";
 
 /** Frontmatter properties the plugin reads and writes. */
 export const KEYS = {

@@ -135,7 +135,7 @@ Obsidian plugins can't show notifications on Android, so a small companion app s
 <a href="https://play.google.com/store/apps/details?id=com.vladmas.notepinobsidian"><img src="docs/images/google-play-badge.png" alt="Get it on Google Play" height="80"></a>
 <a href="https://f-droid.org/packages/com.vladmas.notepinobsidian/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"></a>
 
-1. Install **Note Pin for Obsidian** from Google Play or F-Droid, or download the APK from [GitHub Releases](https://github.com/TODO-owner/TODO-app-repo/releases/latest). It needs Android 8 or later.
+1. Install **Note Pin for Obsidian** from Google Play or F-Droid, or download the APK from [GitHub Releases](https://github.com/ladosha/obsidian_note_pin_android/releases/latest). It needs Android 8 or later.
 2. Open it once. Setup asks for permission to show notifications and set exact alarms, and checks that battery use is unrestricted (see [below](#set-battery-use-to-unrestricted)). It also lists anything your phone's maker needs on top, such as Autostart on Xiaomi phones or Never auto sleeping apps on Samsung.
 3. Install this plugin in your vault on the phone, and open Obsidian. The first time the plugin sends your reminders, the app asks whether to allow this vault.
 
