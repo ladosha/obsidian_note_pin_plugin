@@ -211,7 +211,7 @@ npm test        # needs Node 22.18 or later
 
 ## Support
 
-Made by [vladmas](https://vladmas.com). If you like this plugin, you can support me on Ko-fi:
+Made by [vladmas](https://vladmas.com). If you like this plugin, you can <a href="https://ko-fi.com/vladmas">support me on Ko-fi</a>:
 
 <a href="https://ko-fi.com/vladmas"><img src="docs/images/kofi-button.png" alt="Support me on Ko-fi" height="30"></a>
 
